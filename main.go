@@ -1,12 +1,15 @@
 package main
 
 import (
+	"encoding/xml"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/readme-update-actions/structs"
 )
 
 // create new error for empty env
@@ -41,5 +44,12 @@ func main() {
 		log.Println("Error reading response body", err)
 	}
 
-	fmt.Println(string(responseBody))
+	// use RSS structs
+	var rss structs.RSS
+	errXMLParse := xml.Unmarshal(responseBody, &rss)
+	if errXMLParse != nil {
+		log.Println("Error xml parse", errXMLParse)
+	}
+
+	fmt.Println(rss.Channel.Title)
 }
