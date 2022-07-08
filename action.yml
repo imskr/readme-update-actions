@@ -1,5 +1,20 @@
 name: "Readme update Actions"
-description: "Fetch latest blog posts and add it to GitHub profile's readME dynamically"
+description: "Fetch latest blog posts and add it to GitHub profile's readme dynamically"
 author: "Shubham Kumar"
-inputs:
-  include:
+# inputs:
+#   readme_path:
+#   max_post:
+#   rss_list:
+#   commit_user:
+#   commit_email:
+#   commit_message:
+# outputs:
+#   result_post:
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+
+branding:
+  icon: 'file-text'
+  color: 'red'
