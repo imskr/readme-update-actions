@@ -22,20 +22,10 @@ jobs:
         with:
           go-version: '>=1.17.0'
 
-      - name: Install Dependencies
-        run: |
-          go version
-          go get -u honnef.co/go/tools/cmd/staticcheck
-
       - name: Run lint
         uses: golangci/golangci-lint-action@v3
         with:
           version: latest
-
-      - name: Run staticcheck
-        run: |
-          go vet .
-          staticcheck .
 
       - name: Build
         run: |
