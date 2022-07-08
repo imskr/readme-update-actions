@@ -1,0 +1,43 @@
+name: Build
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    name: Build Code
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.17.0'
+
+      - name: Install Dependencies
+        run: |
+          go version
+          go get -u honnef.co/go/tools/cmd/staticcheck
+
+      - name: Run lint
+        uses: golangci/golangci-lint-action@v3
+        with:
+          version: latest
+
+      - name: Run staticcheck
+        run: |
+          go vet .
+          staticcheck .
+
+      - name: Build
+        run: |
+          go get -d -v
+          go build -v .
