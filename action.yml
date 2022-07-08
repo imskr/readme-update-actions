@@ -16,11 +16,11 @@ inputs:
     required: false
   commit_user:
     description: "Git username"
-    default: "imskr"
+    default: "readme-update-bot"
     required: false
   commit_email:
     description: "Git user email"
-    default: "shubhamkrai123@gmail.com"
+    default: "readme-update-actions@example.com"
     required: false
   commit_message:
     description: "Git commit message"
