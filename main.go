@@ -64,5 +64,8 @@ func main() {
 	result_post := fmt.Sprintf("<!-- BLOG-LIST-START -->"+"\n%s", strings.Join(items, "\n"))
 
 	// find readme and replace with our result
-	helpers.ReplaceFile(readme_path, strings.TrimSuffix(result_post, "\n"))
+	err = helpers.ReplaceFile(readme_path, strings.TrimSuffix(result_post, "\n"))
+	if err != nil {
+		log.Println("Error updating readme")
+	}
 }
