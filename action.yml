@@ -2,17 +2,33 @@ name: "Readme update Actions"
 description: "Fetch latest blog posts and add it to GitHub profile's readme dynamically"
 author: "Shubham Kumar"
 inputs:
-  readme_path:
-  max_post:
   rss_list:
     description: "RSS feed url"
     default: ""
     required: true
+  readme_path:
+    description: "Path of readme file"
+    default: "./README.md"
+    required: false
+  max_post:
+    description: "Max number of posts"
+    default: "3"
+    required: false
   commit_user:
+    description: "Git username"
+    default: "imskr"
+    required: false
   commit_email:
+    description: "Git user email"
+    default: "shubhamkrai123@gmail.com"
+    required: false
   commit_message:
+    description: "Git commit message"
+    default: "Update readme with latest blogs"
+    required: false
 outputs:
   result_post:
+    description: "Stringified posts in readme format"
 
 runs:
   using: "docker"
