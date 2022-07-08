@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/readme-update-actions/structs"
+	medium "github.com/readme-update-actions/pkg/structs"
 )
 
 // create new error for empty env
@@ -45,7 +45,7 @@ func main() {
 	}
 
 	// use RSS structs
-	var rss structs.RSS
+	var rss medium.RSS
 	errXMLParse := xml.Unmarshal(responseBody, &rss)
 	if errXMLParse != nil {
 		log.Println("Error xml parse", errXMLParse)

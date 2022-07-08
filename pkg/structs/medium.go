@@ -1,4 +1,4 @@
-package structs
+package medium
 
 import (
 	"encoding/xml"
