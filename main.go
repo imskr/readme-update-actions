@@ -2,34 +2,35 @@ package main
 
 import (
 	"encoding/xml"
-	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
+	"strings"
 
 	medium "github.com/readme-update-actions/pkg/structs"
+	helpers "github.com/readme-update-actions/pkg/utils"
 )
-
-// create new error for empty env
-var errEnvEmpty = errors.New("getenv: Environment variable empty")
-
-// Get env string from user through actions env
-// if no env variables provided throw error
-// requires key string
-// returns string, error
-func getEnvString(key string) (string, error) {
-	env_string := os.Getenv(key)
-	if env_string == "" {
-		return env_string, errEnvEmpty
-	}
-	return env_string, nil
-}
 
 func main() {
 	// get the rss list from the actions env
-	rss_medium, _ := getEnvString("INPUT_RSS_LIST")
+	rss_medium, _ := helpers.GetEnvString("INPUT_RSS_LIST")
+
+	// get the number of posts or stories to commit
+	max_post, _ := helpers.GetEnvInteger("INPUT_MAX_POST")
+
+	// if max_post not in env var set default to 3
+	if max_post == 0 {
+		max_post = 3
+	}
+
+	// get readme path from the actions env
+	readme_path, _ := helpers.GetEnvString("INPUT_README_PATH")
+
+	// if path not provided default to root readme
+	if readme_path == "" {
+		readme_path = "./README.md"
+	}
 
 	// get medium.com rss feed
 	mediumResponse, err := http.Get(rss_medium)
@@ -51,5 +52,20 @@ func main() {
 		log.Println("Error xml parse", errXMLParse)
 	}
 
-	fmt.Println(rss.Channel.Title)
+	// store the posts
+	var items []string
+
+	// get the posts
+	// format it according to readme links format
+	for i := 0; i < max_post; i++ {
+		item := fmt.Sprintf("- [%s](%s)\n", rss.Channel.Item[i].Title, rss.Channel.Item[i].Link)
+		items = append(items, item)
+	}
+	result_post := fmt.Sprintf("<!-- BLOG-LIST-START -->"+"\n%s", strings.Join(items, "\n"))
+
+	// find readme and replace with our result
+	err = helpers.ReplaceFile(readme_path, strings.TrimSuffix(result_post, "\n"))
+	if err != nil {
+		log.Println("Error updating readme")
+	}
 }
