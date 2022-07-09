@@ -6,9 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"os/exec"
-	"strings"
 
 	medium "github.com/readme-update-actions/pkg/structs"
 	helpers "github.com/readme-update-actions/pkg/utils"
@@ -34,17 +32,17 @@ func main() {
 		readme_path = "./README.md"
 	}
 
-	// // get username
-	// commit_user, _ := helpers.GetEnvString("INPUT_COMMIT_USER")
-	// if commit_user == "" {
-	// 	commit_user = "readme-update-bot"
-	// }
+	// get username
+	commit_user, _ := helpers.GetEnvString("INPUT_COMMIT_USER")
+	if commit_user == "" {
+		commit_user = "readme-update-bot"
+	}
 
-	// // git user email
-	// commit_email, _ := helpers.GetEnvString("INPUT_COMMIT_EMAIL")
-	// if commit_email == "" {
-	// 	commit_email = "readme-update-actions@example.com"
-	// }
+	// git user email
+	commit_email, _ := helpers.GetEnvString("INPUT_COMMIT_EMAIL")
+	if commit_email == "" {
+		commit_email = "readme-update-actions@example.com"
+	}
 
 	// git commit message
 	commit_message, _ := helpers.GetEnvString("INPUT_COMMIT_MESSAGE")
@@ -88,27 +86,19 @@ func main() {
 		log.Fatalf("Error updating readme %s", err)
 	}
 
-	// // set git user name
-	// nameCmd := exec.Command("git", "config", "user.name", commit_user)
-	// err = nameCmd.Run()
-	// if err != nil {
-	// 	log.Println("Error setting git user", err)
-	// }
-
-	// // set git user email
-	// emailCmd := exec.Command("git", "config", "user.email", commit_email)
-	// err = emailCmd.Run()
-	// if err != nil {
-	// 	log.Println("Error setting git email", err)
-	// }
-
-	i, err := os.ReadFile("./README.md")
+	// set git user name
+	nameCmd := exec.Command("git", "config", "user.name", commit_user)
+	err = nameCmd.Run()
 	if err != nil {
-		log.Println("Failed")
+		log.Println("Error setting git user", err)
 	}
 
-	lines := strings.Split(string(i), "\n")
-	log.Println(lines)
+	// set git user email
+	emailCmd := exec.Command("git", "config", "user.email", commit_email)
+	err = emailCmd.Run()
+	if err != nil {
+		log.Println("Error setting git email", err)
+	}
 
 	// add to staging area
 	addCmd := exec.Command("git", "add", readme_path)

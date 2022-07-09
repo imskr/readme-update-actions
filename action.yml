@@ -14,14 +14,14 @@ inputs:
     description: "Max number of posts"
     default: "3"
     required: false
-  # commit_user:
-  #   description: "Git username"
-  #   default: "readme-update-bot"
-  #   required: false
-  # commit_email:
-  #   description: "Git user email"
-  #   default: "readme-update-actions@example.com"
-  #   required: false
+  commit_user:
+    description: "Git username"
+    default: "readme-update-bot"
+    required: false
+  commit_email:
+    description: "Git user email"
+    default: "readme-update-actions@example.com"
+    required: false
   commit_message:
     description: "Git commit message"
     default: "Update readme with latest blogs"
@@ -35,6 +35,8 @@ runs:
   image: "Dockerfile"
   args:
   - "-rss_list=${{ inputs.rss_list }}"
+  - "-commit_user=${{ inputs.commit_user }}"
+  - "-commit_email=${{ inputs.commit_email }}"
   - "-commit_message=${{ inputs.commit_message }}"
 
 branding:
