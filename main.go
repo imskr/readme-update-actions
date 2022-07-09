@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"strings"
 
 	medium "github.com/readme-update-actions/pkg/structs"
 	helpers "github.com/readme-update-actions/pkg/utils"
@@ -105,7 +106,9 @@ func main() {
 	if err != nil {
 		log.Println("Failed")
 	}
-	log.Println(i)
+
+	lines := strings.Split(string(i), "\n")
+	log.Println(lines)
 
 	// add to staging area
 	addCmd := exec.Command("git", "add", readme_path)
