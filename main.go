@@ -14,7 +14,8 @@ import (
 
 func main() {
 	// get the rss list from the actions env
-	rss_medium, _ := helpers.GetEnvString("INPUT_RSS_LIST")
+	// rss_medium, _ := helpers.GetEnvString("INPUT_RSS_LIST")
+	rss_medium := "https://imskr.medium.com/feed"
 
 	// get the number of posts or stories to commit
 	max_post, _ := helpers.GetEnvInteger("INPUT_MAX_POST")
