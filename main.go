@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"os/exec"
 
 	medium "github.com/readme-update-actions/pkg/structs"
@@ -99,6 +100,12 @@ func main() {
 	// if err != nil {
 	// 	log.Println("Error setting git email", err)
 	// }
+
+	i, err := os.ReadFile("./README.md")
+	if err != nil {
+		log.Println("Failed")
+	}
+	log.Println(i)
 
 	// add to staging area
 	addCmd := exec.Command("git", "add", readme_path)
