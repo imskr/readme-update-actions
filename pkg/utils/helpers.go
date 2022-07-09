@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -44,7 +45,7 @@ func GetEnvInteger(key string) (int, error) {
 // Read a file and replace strings
 // requires path of file, resultString
 // returns error
-func ReplaceFile(path string, resultString string) error {
+func ReplaceFile(path string, items []string) error {
 	input, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatalln(err)
@@ -52,9 +53,18 @@ func ReplaceFile(path string, resultString string) error {
 
 	lines := strings.Split(string(input), "\n")
 
-	for i, line := range lines {
-		if strings.Contains(line, "<!-- BLOG-LIST-START -->") {
-			lines[i] = resultString
+	for i := 0; i < len(lines); i++ {
+		if lines[i] == "<!-- BLOG-LIST-START -->" {
+			if lines[i+1] == "<!-- BLOG-LIST-END -->" {
+				result_post := fmt.Sprintf("%s"+"<!-- BLOG-LIST-END -->", strings.Join(items, "\n"))
+				lines[i+1] = result_post
+				break
+			} else if lines[i+6] == "<!-- BLOG-LIST-END -->" {
+				lines[i+1] = strings.TrimSuffix(items[0], "\n")
+				lines[i+3] = strings.TrimSuffix(items[1], "\n")
+				lines[i+5] = strings.TrimSuffix(items[2], "\n")
+				break
+			}
 		}
 	}
 
