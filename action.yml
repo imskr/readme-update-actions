@@ -31,8 +31,13 @@ outputs:
     description: "Stringified posts in readme format"
 
 runs:
-  using: "docker"
-  image: "Dockerfile"
+  using: composite
+  steps:
+  - uses: actions/setup-go@v2
+    with:
+      go-version: '1.18'
+
+  - run: go run ./main.go
 
 branding:
   icon: 'file-text'
