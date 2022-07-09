@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine as build-env
+FROM golang:1.18-alpine as build-env
  
 # Set environment variable
 ENV APP_NAME readme-update-actions
