@@ -1,4 +1,12 @@
-FROM golang:1.18 as builder
+FROM golang:1.18-alpine as builder
+
+# update and install git
+RUN apk update && apk add git
+
+# Set Environment Variables
+ENV HOME /app
+ENV CGO_ENABLED 0
+ENV GOOS linux
 
 WORKDIR /app
 COPY . /app/
