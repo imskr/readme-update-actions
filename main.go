@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
+	"os/exec"
 
 	medium "github.com/readme-update-actions/pkg/structs"
 	helpers "github.com/readme-update-actions/pkg/utils"
@@ -79,47 +79,45 @@ func main() {
 		item := fmt.Sprintf("- [%s](%s)\n", rss.Channel.Item[i].Title, rss.Channel.Item[i].Link)
 		items = append(items, item)
 	}
-	result_post := fmt.Sprintf("<!-- BLOG-LIST-START -->"+"\n%s", strings.Join(items, "\n"))
 
 	// find readme and replace with our result
-	err = helpers.ReplaceFile(readme_path, strings.TrimSuffix(result_post, "\n"))
+	err = helpers.ReplaceFile(readme_path, items)
 	if err != nil {
-		log.Println("Error updating readme")
+		log.Fatalf("Error updating readme %s", err)
 	}
 
-	// // set git user name
-	// nameCmd := exec.Command("git", "config", "user.name", commit_user)
-	// err = nameCmd.Run()
-	// if err != nil {
-	// 	log.Println("Error setting git user", err)
-	// }
+	// set git user name
+	nameCmd := exec.Command("git", "config", "user.name", commit_user)
+	err = nameCmd.Run()
+	if err != nil {
+		log.Println("Error setting git user", err)
+	}
 
-	// // set git user email
-	// emailCmd := exec.Command("git", "config", "user.email", commit_email)
-	// err = emailCmd.Run()
-	// if err != nil {
-	// 	log.Println("Error setting git email", err)
-	// }
+	// set git user email
+	emailCmd := exec.Command("git", "config", "user.email", commit_email)
+	err = emailCmd.Run()
+	if err != nil {
+		log.Println("Error setting git email", err)
+	}
 
-	// // add to staging area
-	// addCmd := exec.Command("git", "add", readme_path)
-	// err = addCmd.Run()
-	// if err != nil {
-	// 	log.Println("Error adding to staging area", err)
-	// }
+	// add to staging area
+	addCmd := exec.Command("git", "add", readme_path)
+	err = addCmd.Run()
+	if err != nil {
+		log.Println("Error adding to staging area", err)
+	}
 
-	// // do git commit
-	// commitCmd := exec.Command("git", "commit", "-m", commit_message)
-	// err = commitCmd.Run()
-	// if err != nil {
-	// 	log.Println("Error commiting to repo", err)
-	// }
+	// do git commit
+	commitCmd := exec.Command("git", "commit", "-m", commit_message)
+	err = commitCmd.Run()
+	if err != nil {
+		log.Println("Error commiting to repo", err)
+	}
 
-	// // do git push
-	// // do git commit
-	// pushCmd := exec.Command("git", "push")
-	// err = pushCmd.Run()
-	// if err != nil {
-	// 	log.Println("Error pushing to repo", err)
-	// }
+	// do git push
+	pushCmd := exec.Command("git", "push")
+	err = pushCmd.Run()
+	if err != nil {
+		log.Println("Error pushing to repo", err)
+	}
 }
