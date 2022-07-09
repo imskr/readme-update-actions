@@ -13,6 +13,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Fetch medium.com posts
-        uses: imskr/readme-update-actions@v1.4.5
+        uses: ./
         with:
           rss_list: "https://imskr.medium.com/feed"
