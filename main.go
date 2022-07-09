@@ -32,17 +32,17 @@ func main() {
 		readme_path = "./README.md"
 	}
 
-	// get username
-	commit_user, _ := helpers.GetEnvString("INPUT_COMMIT_USER")
-	if commit_user == "" {
-		commit_user = "readme-update-bot"
-	}
+	// // get username
+	// commit_user, _ := helpers.GetEnvString("INPUT_COMMIT_USER")
+	// if commit_user == "" {
+	// 	commit_user = "readme-update-bot"
+	// }
 
-	// git user email
-	commit_email, _ := helpers.GetEnvString("INPUT_COMMIT_EMAIL")
-	if commit_email == "" {
-		commit_email = "readme-update-actions@example.com"
-	}
+	// // git user email
+	// commit_email, _ := helpers.GetEnvString("INPUT_COMMIT_EMAIL")
+	// if commit_email == "" {
+	// 	commit_email = "readme-update-actions@example.com"
+	// }
 
 	// git commit message
 	commit_message, _ := helpers.GetEnvString("INPUT_COMMIT_MESSAGE")
