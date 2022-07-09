@@ -13,13 +13,14 @@
 ## Usage
 
 1. Go to your repository
-2. Add the following section to your **README.md** file, you can give whatever title you want. Just make sure that you use `<!-- BLOG-POST-START --><!-- BLOG-POST-END -->` in your readme. The workflow will replace this comment with the actual blog post list:
+2. Add the following section to your **README.md** file, you can give whatever title you want. Just make sure that you use `<!-- BLOG-LIST-START --><!-- BLOG-LIST-END -->` in your readme. The workflow will replace this comment with the actual blog post list:
 
     ```markdown
     # Blog posts
-    <!-- BLOG-POST-START -->
-    <!-- BLOG-POST-END -->
+    <!-- BLOG-LIST-START -->
+    <!-- BLOG-LIST-END -->
     ```
+
 3. Create a folder `.github/workflows` inside root of the repository if it doesn't exists.
 4. Create a new file `readme-update-actions.yml`  inside `.github/workflows/`  with the following contents:
 
