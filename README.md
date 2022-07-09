@@ -1,4 +1,4 @@
-![rusty-skywalker](./public/images/brand-readme-update.png)
+![readme-update-actions](./public/images/brand-name.png)
 
 > A Powerful Bot to Update GitHub Profile's Readme using GitHub Actions
 

@@ -105,6 +105,7 @@ func main() {
 	err = addCmd.Run()
 	if err != nil {
 		log.Println("Error adding to staging area", err)
+		return
 	}
 
 	// do git commit
@@ -112,6 +113,7 @@ func main() {
 	err = commitCmd.Run()
 	if err != nil {
 		log.Println("Error commiting to repo", err)
+		return
 	}
 
 	// do git push
@@ -119,5 +121,6 @@ func main() {
 	err = pushCmd.Run()
 	if err != nil {
 		log.Println("Error pushing to repo", err)
+		return
 	}
 }
