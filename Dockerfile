@@ -1,25 +1,27 @@
-FROM golang:1.18-alpine as builder
+FROM golang:1.17-alpine as build-env
+ 
+# Set environment variable
+ENV APP_NAME readme-update-actions
+ENV CMD_PATH main.go
 
-# update and install git
-RUN apk update && apk add git
+# Copy application data into image
+COPY . $GOPATH/src/$APP_NAME
+WORKDIR $GOPATH/src/$APP_NAME
 
-# Set Environment Variables
-ENV HOME /app
-ENV CGO_ENABLED 0
-ENV GOOS linux
+# install dependencies
+RUN apk update && apk add --no-cache git
 
-WORKDIR /app
-COPY . /app/
+# Budild application
+RUN CGO_ENABLED=0 go build -v -o /$APP_NAME $GOPATH/src/$APP_NAME/$CMD_PATH
 
-RUN go get -d -v
+# Run Stage
+FROM alpine:3.14
 
-# Statically compile our app for use in a distroless container
-RUN CGO_ENABLED=0 go build -ldflags="-w -s" -v -o app .
+# Set environment variable
+ENV APP_NAME readme-update-actions
 
-# A distroless container image with some basics like SSL certificates
-# https://github.com/GoogleContainerTools/distroless
-FROM gcr.io/distroless/static
+# Copy only required data into this image
+COPY --from=build-env /$APP_NAME .
 
-COPY --from=builder /app/app /app
-
-ENTRYPOINT ["/app"]
+# Start app
+CMD ./$APP_NAME
