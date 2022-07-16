@@ -1,23 +1,21 @@
-FROM ubuntu:20.04
+FROM golang:1.18-alpine
 
-RUN apt-get update
-RUN apt-get install -y wget git gcc
+RUN apk add -q --update \
+    && apk add -q \
+            bash \
+            git \
+            curl \
+    && rm -rf /var/cache/apk/*
 
-RUN wget -P /tmp https://dl.google.com/go/go1.18.linux-amd64.tar.gz
+# Copy all the files from the host into the container
+WORKDIR /src
+COPY . .
 
-RUN tar -C /usr/local -xzf /tmp/go1.18.linux-amd64.tar.gz
-RUN rm /tmp/go1.18.linux-amd64.tar.gz
-
-ENV GOPATH /go
-ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
-RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
-
+# Enable Go modules
 ENV GO111MODULE=on
-RUN CGO_ENABLED=0 GOOS=linux go build
 
-WORKDIR /app
-COPY . /app
-RUN chmod -R 777 /app
+# Compile the action
+RUN go build -o /bin/action
 
-# Start app
-ENTRYPOINT ["go", "run", "/app/main.go"]
+# Specify the container's entrypoint as the action
+ENTRYPOINT ["/bin/action"]
