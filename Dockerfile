@@ -12,7 +12,8 @@ ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
-RUN go version
+ENV GO111MODULE=on
+RUN CGO_ENABLED=0 GOOS=linux go build
 
 WORKDIR /app
 COPY . /app
