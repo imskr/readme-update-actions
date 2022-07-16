@@ -91,21 +91,21 @@ func main() {
 	nameCmd := exec.Command("git", "config", "user.name", commit_user)
 	err = nameCmd.Run()
 	if err != nil {
-		log.Println("Error setting git user", err)
+		log.Fatalf("Error setting git user %s", err)
 	}
 
 	// set git user email
 	emailCmd := exec.Command("git", "config", "user.email", commit_email)
 	err = emailCmd.Run()
 	if err != nil {
-		log.Println("Error setting git email", err)
+		log.Fatalf("Error setting git email %s", err)
 	}
 
 	// add to staging area
 	addCmd := exec.Command("git", "add", readme_path)
 	err = addCmd.Run()
 	if err != nil {
-		log.Println("Error adding to staging area", err)
+		log.Fatalf("Error adding to staging area %s", err)
 		return
 	}
 
@@ -113,7 +113,7 @@ func main() {
 	commitCmd := exec.Command("git", "commit", "-m", commit_message)
 	err = commitCmd.Run()
 	if err != nil {
-		log.Println("Error commiting to repo", err)
+		log.Fatalf("Error commiting to repo %s", err)
 		return
 	}
 
@@ -121,7 +121,7 @@ func main() {
 	pushCmd := exec.Command("git", "push")
 	err = pushCmd.Run()
 	if err != nil {
-		log.Println("Error pushing to repo", err)
+		log.Fatalf("Error pushing to repo %s", err)
 		return
 	}
 }

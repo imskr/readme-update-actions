@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:20.04
 
 RUN apt-get update
 RUN apt-get install -y wget git gcc
@@ -16,6 +16,8 @@ RUN go version
 
 WORKDIR /app
 COPY . /app
+RUN chmod -R 777 /app
 
 # Start app
-ENTRYPOINT ["go", "run", "/app/main.go"]
+ENTRYPOINT ["go"]
+CMD ["run", "/app/main.go"]
