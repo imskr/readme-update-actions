@@ -19,5 +19,4 @@ COPY . /app
 RUN chmod -R 777 /app
 
 # Start app
-ENTRYPOINT ["go"]
-CMD ["run", "/app/main.go"]
+ENTRYPOINT ["go", "run", "/app/main.go"]
