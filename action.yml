@@ -33,9 +33,13 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - uses: actions/checkout@v3
     - uses: actions/setup-go@v2
       with:
         go-version: '1.18'
+
+    - run: go run ${{ github.action_path }}/main.go
+      shell: bash
 
     - run: go run ${{ github.action_path }}/main.go
       shell: bash
