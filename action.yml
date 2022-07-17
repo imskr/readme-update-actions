@@ -43,11 +43,6 @@ runs:
 
     - run: go run ${{ github.action_path }}/main.go
       shell: bash
-  # args:
-  # - "-rss_list=${{ inputs.rss_list }}"
-  # - "-commit_user=${{ inputs.commit_user }}"
-  # - "-commit_email=${{ inputs.commit_email }}"
-  # - "-commit_message=${{ inputs.commit_message }}"
 
 branding:
   icon: 'file-text'
