@@ -24,7 +24,7 @@
 3. Create a folder `.github/workflows` inside root of the repository if it doesn't exists.
 4. Create a new file `readme-update-actions.yml`  inside `.github/workflows/`  with the following contents:
 
-![](./public/images/readme-action.png)
+![](./public/images/readme-blog.png)
 
 5. Replace the above URL list with your own RSS feed URLs.
 6. Commit and wait for it to run automatically, or you can also trigger it manually to see the result instantly.
