@@ -38,17 +38,6 @@ runs:
   - "-commit_user=${{ inputs.commit_user }}"
   - "-commit_email=${{ inputs.commit_email }}"
   - "-commit_message=${{ inputs.commit_message }}"
-  # steps:
-  #   - uses: actions/checkout@v3
-  #   - uses: actions/setup-go@v2
-  #     with:
-  #       go-version: '1.18'
-
-  #   - run: go mod tidy
-  #     shell: bash
-
-  #   - run: go run ${{ github.action_path }}/main.go
-  #     shell: bash
 
 branding:
   icon: 'file-text'
