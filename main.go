@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os/exec"
+	"strings"
 
 	medium "github.com/readme-update-actions/pkg/structs"
 	helpers "github.com/readme-update-actions/pkg/utils"
@@ -101,27 +102,36 @@ func main() {
 		log.Fatalf("Error setting git email %s", err)
 	}
 
-	// add to staging area
-	addCmd := exec.Command("git", "add", readme_path)
-	err = addCmd.Run()
+	// check git status
+	statusCmd, err := exec.Command("git", "status").Output()
 	if err != nil {
-		log.Fatalf("Error adding to staging area %s", err)
-		return
+		log.Fatal(err)
 	}
 
-	// do git commit
-	commitCmd := exec.Command("git", "commit", "-m", commit_message)
-	err = commitCmd.Run()
-	if err != nil {
-		log.Fatalf("Error commiting to repo %s", err)
-		return
-	}
+	statusOutput := string(statusCmd)
+	if !strings.Contains(statusOutput, "nothing to commit") {
+		// add to staging area
+		addCmd := exec.Command("git", "add", readme_path)
+		err = addCmd.Run()
+		if err != nil {
+			log.Fatalf("Error adding to staging area %s", err)
+			return
+		}
 
-	// do git push
-	pushCmd := exec.Command("git", "push")
-	err = pushCmd.Run()
-	if err != nil {
-		log.Fatalf("Error pushing to repo %s", err)
-		return
+		// do git commit
+		commitCmd := exec.Command("git", "commit", "-m", commit_message)
+		err = commitCmd.Run()
+		if err != nil {
+			log.Fatalf("Error commiting to repo %s", err)
+			return
+		}
+
+		// do git push
+		pushCmd := exec.Command("git", "push")
+		err = pushCmd.Run()
+		if err != nil {
+			log.Fatalf("Error pushing to repo %s", err)
+			return
+		}
 	}
 }
