@@ -1,21 +1,21 @@
-FROM golang:1.18-alpine
+FROM ubuntu:latest
 
-RUN apk add -q --update \
-    && apk add -q \
-            bash \
-            git \
-            curl \
-    && rm -rf /var/cache/apk/*
+RUN apt-get update
+RUN apt-get install -y wget git gcc bash
 
-# Copy all the files from the host into the container
-WORKDIR /src
-COPY . .
+RUN wget -P /tmp https://dl.google.com/go/go1.18.linux-amd64.tar.gz
 
-# Enable Go modules
-ENV GO111MODULE=on
+RUN tar -C /usr/local -xzf /tmp/go1.18.linux-amd64.tar.gz
+RUN rm /tmp/go1.18.linux-amd64.tar.gz
 
-# Compile the action
-RUN go build -o /bin/action
+ENV GOPATH /go
+ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
-# Specify the container's entrypoint as the action
-ENTRYPOINT ["/bin/action"]
+RUN go version
+
+WORKDIR /app
+COPY . /app/
+
+# Start app
+ENTRYPOINT ["go", "run", "/app/main.go"]
