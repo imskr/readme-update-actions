@@ -1,0 +1,21 @@
+name: Readme Update Blog
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  update-blog:
+    name: Update latest blogs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Fetch medium.com posts
+        uses: ./
+        with:
+          rss_list: "https://imskr.medium.com/feed"
