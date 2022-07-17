@@ -38,9 +38,6 @@ runs:
       with:
         go-version: '1.18'
 
-    - run: go mod init ${{ github.action_path }}
-      shell: bash
-
     - run: go mod tidy
       shell: bash
 
