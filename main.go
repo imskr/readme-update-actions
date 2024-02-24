@@ -88,6 +88,13 @@ func main() {
 		log.Fatalf("Error updating readme %s", err)
 	}
 
+	// mark safe directory
+	safeCmd := exec.Command("git", "config", "--global", "--add", "safe.directory", "/github/workspace")
+	err = safeCmd.Run()
+	if err != nil {
+		log.Fatalf("Error setting safe directory %s", err)
+	}
+
 	// set git user name
 	nameCmd := exec.Command("git", "config", "user.name", commit_user)
 	err = nameCmd.Run()
